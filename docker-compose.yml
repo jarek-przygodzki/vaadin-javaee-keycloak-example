@@ -1,0 +1,28 @@
+version: '3'
+services:
+  keycloak:
+    image: jboss/keycloak:6.0.1
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      # when running Keycloak behind a proxy
+      PROXY_ADDRESS_FORWARDING: 'true'
+      KEYCLOAK_LOGLEVEL: 'DEBUG'
+      SYS_PROPS: '-bmanagement=0.0.0.0'
+      KEYCLOAK_IMPORT: '/config/WebRealm.json'
+    ports:
+      - 8080:8080
+      - 9990:9990
+    volumes:
+      - ./WebRealm.json:/config/WebRealm.json:ro
+  nginx:
+    image: nginx:1.15.12-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  web:
+    build: .
+    ports:
+      - 8081:8080
+      - 9991:9990

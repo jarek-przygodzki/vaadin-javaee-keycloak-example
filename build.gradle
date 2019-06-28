@@ -1,0 +1,41 @@
+plugins {
+    id 'war'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.31'
+}
+
+group 'kotlin-vaadin-web-app'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+war {
+    archiveFileName = 'web-app.war'
+}
+
+
+def versionCompatibility = 1.8
+
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation platform("com.vaadin:vaadin-bom:8.8.1")
+    implementation 'com.vaadin:vaadin-server'
+    implementation 'com.vaadin:vaadin-push'
+    implementation 'com.vaadin:vaadin-client-compiled'
+    implementation 'com.vaadin:vaadin-themes'
+    compile group: 'com.vaadin', name: 'vaadin-cdi', version: '3.0.1'
+
+
+    providedCompile group: 'javax', name: 'javaee-api', version: '7.0'
+    providedCompile group: 'org.keycloak', name: 'keycloak-core', version: '6.0.1'
+
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
